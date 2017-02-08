@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.koushikdutta.ion.Response;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -37,32 +39,61 @@ public class LifeLogActivity extends Activity {
     private static final String PREFS_KEY_REFRESH_TOKEN = "REFRESH_TOKEN";
     private static final String PROFILE_URL = "https://platform.lifelog.sonymobile.com/v1/users/me";
     private static final String ACTIVITIES_URL = "https://platform.lifelog.sonymobile.com/v1/users/me";
+
+    private ActivitysFeedAdapter adapter;
+    private List<Label> labels = new ArrayList<>();
+    private ListView feedListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.button);
+        String token = getSharedPreferences(PREFS_NAME, 0).getString(PREFS_KEY_ACCESS_TOKEN, "");
 
-        final Button login = (Button)findViewById(R.id.button);
-        final Button steps = (Button)findViewById(R.id.getsteps);
+        if(token.equals("")) {
+            setContentView(R.layout.button);
+            final Button login = (Button)findViewById(R.id.button);
+            final Button steps = (Button)findViewById(R.id.getsteps);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login(v);
-            }
-        });
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    login(v);
+                }
+            });
 
-        steps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Log.d("VIKT ", ""+getWeight());
-                Log.d("STEPS", ""+getSteps());
-            }
-        });
+            steps.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Log.d("VIKT ", ""+getWeight());
+                    Log.d("STEPS", ""+getSteps());
+                }
+            });
+        } else {
+            viewLayout();
+        }
+    }
+
+    private void viewLayout() {
+        Log.d("viewlayout()", "skapa");
+
+        for(int i = 0; i < 10; i++) {       // Dummy loop
+            getSteps();
+            getWeight();
+        }
+
+        labels.add(new Label("steps", 2000, null)); // Dummy value
+        setContentView(R.layout.label_view);
+        adapter = new ActivitysFeedAdapter(this, R.layout.row_view, labels);
+        feedListView = (ListView) findViewById(R.id.feed_list_view);
+        feedListView.setAdapter(adapter);
+        Log.d("viewlayout()", "efter adapter");
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
 
     public void login(View v){
-        Log.i("login()", "message");
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.setClass(this, WebViewActivity.class);
@@ -105,6 +136,7 @@ public class LifeLogActivity extends Activity {
                                 editor.putString(PREFS_KEY_ACCESS_TOKEN, accessToken);
                                 editor.putString(PREFS_KEY_REFRESH_TOKEN, refreshToken);
                                 editor.commit();
+                                viewLayout();
                             } else {
                                 if (result.getHeaders().code() == 401) {
                                     refreshToken();
@@ -238,8 +270,13 @@ public class LifeLogActivity extends Activity {
     }
 
     public Double getWeight() {
+        Label label = new Label("Weight");
         JsonObject obj = getHTTPResponseSync(PROFILE_URL);
         if (obj != null) {
+            label.setValue((int)obj.getAsJsonArray("result").get(0).getAsJsonObject().get("weight").getAsDouble());
+            label.setActivityType("weight");
+            labels.add(label);
+            setLabels(labels);
             return obj.getAsJsonArray("result").get(0).getAsJsonObject().get("weight").getAsDouble();
         }
         else {
@@ -249,8 +286,8 @@ public class LifeLogActivity extends Activity {
     }
 
     public int getSteps(){
-
-        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL+ "/activities?start_time=2017-02-01T00:00:00.000Z&end_time=2017-02-01T20:00:00.000Z&type=physical:walk");
+        Label labelsteps = new Label("Steps");
+        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL+ "/activities?start_time=2017-02-06T00:00:00.000Z&end_time=2017-02-08T20:00:00.000Z&type=physical:walk");
         if(obj != null){
 
             JsonObject x = (JsonObject)obj.getAsJsonArray("result").get(0);
@@ -261,9 +298,11 @@ public class LifeLogActivity extends Activity {
             for(JsonElement o : y){
                 sum += o.getAsInt();
             }
-
-
-             return sum;
+            labelsteps.setValue(sum);
+            labelsteps.setActivityType("steps");
+            labels.add(labelsteps);
+            setLabels(labels);
+            return sum;
         }else{
             Log.d("NULL", "NULL");
             return 0;

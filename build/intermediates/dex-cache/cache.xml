@@ -1,2 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="b8e8be0a79bae87c6a12e921108392da6c27b894">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9c74995d25c907148d9400d1ad0b3acb99183032/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.4.0_563ea0da984fdcc626bd9cd077a9bf45abc102ca/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/libs/classes_ion.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="8c3b39c2d27b12faffc3be72f9d2221231e82a73">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/2/classes_ion_a3392f9ff27ef0b527ebfd1a159fea4ecb3ea601/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.koushikdutta.async/androidasync/2.1.9/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="60d0e28fe7ab6da6c03b54cd8ede502284d51a81">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.koushikdutta.async-androidasync-2.1.9_e4ab13a9a19b36a43dfa1050f517d756888d6674/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.4.0_1e50faf861b3582e63d095b4fd4c288bc31c8f47/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.4.0_9129046a50b94e44a4b789c18dfaa94a39e276ef/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/libs/classes_async.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="415a434d306dd46688bc9e004fbf142ce505211e">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/2/classes_async_5697791b196d18e42915ca168514c23aadcde90a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="180eb027f3e6fd6e929d29c5c50429db8ca064d7">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_9cbae26ebddc41cee9396e258af66e7f3d123c28/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.koushikdutta.ion/ion/2.1.9/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="7e54ea31584406fcc68225a8656f384c333ff2ee">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.koushikdutta.ion-ion-2.1.9_8986c5217e34396bdbe9c2a1ae53480df771c463/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-23.4.0_f0935379d02354fb3c0cba48fbb247e98ad81438/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/libs/android-support-v4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="efec67655f6db90757faa37201efcee2a9ec3507">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/2/android-support-v4_8c7f237ecb5fc9cb20147aa14c008fe6cf196cfe/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/libs/gson-2.2.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/2/gson-2.2.4_8fa43e71b292e7afd5a0ad878f0abc24ccbea14d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.4.0/support-annotations-23.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.4.0_ebcce85c32dee7bf4dfc75546cfe7a2582e35c9d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3/5fc52c41ef0239d1093a1eb7c3697036183677ce/gson-2.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.3_47c2822e2a45e5b5d2fee9747876760dfddd6208/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-23.4.0_cb66ca8b9eab13247af50e0965ce0e1a0184b10f/classes.dex" />
+    </item>
+
+</items>
