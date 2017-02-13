@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="b8e8be0a79bae87c6a12e921108392da6c27b894">
+        sha1="cf887475b48e5272dfb207cce652a7bb2acd7b73">
         <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9c74995d25c907148d9400d1ad0b3acb99183032/classes.dex" />
     </item>
     <item
@@ -70,7 +70,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="180eb027f3e6fd6e929d29c5c50429db8ca064d7">
+        sha1="b83c01509a6ffeef05a8f7d0c2a936facf3f6670">
         <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_9cbae26ebddc41cee9396e258af66e7f3d123c28/classes.dex" />
     </item>
     <item

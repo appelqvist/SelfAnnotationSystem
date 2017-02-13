@@ -32,19 +32,26 @@ public class ActivitysFeedAdapter extends ArrayAdapter<Label> {
         View rowView = inflater.inflate(R.layout.row_view, parent, false);
 
         TextView activityValueTextView = (TextView) rowView.findViewById(R.id.tvActivityValue);
-        TextView labelOptionTextView = (TextView) rowView.findViewById(R.id.tvPutlabelOptionHere);
         TextView activityTypeTextView = (TextView) rowView.findViewById(R.id.tvActivityType);
+        TextView timeTextView = (TextView) rowView.findViewById(R.id.tvTime);
 
-        if(feeds.get(position).getActivityType().equals("steps")){
-            activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
-            activityValueTextView.setText(String.valueOf(feeds.get(position).getValue()));
-            activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
-        }
-        else if(feeds.get(position).getActivityType().equals("weight")){
-            activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
-            activityValueTextView.setText(String.valueOf(feeds.get(position).getValue()));
-            activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colorfacebook));
-        }
+        activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
+        activityValueTextView.setText(String.valueOf(feeds.get(position).getValue()));
+        activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
+        timeTextView.setText(feeds.get(position).getTime());
+
+
+//        if(feeds.get(position).getActivityType().equals("steps")){
+//            activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
+//            activityValueTextView.setText(String.valueOf(feeds.get(position).getValue()));
+//            activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
+//        }
+//        else if(feeds.get(position).getActivityType().equals("weight")){
+//            activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
+//            activityValueTextView.setText(String.valueOf(feeds.get(position).getValue()));
+//            activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colorfacebook));
+//        }
+
 
         return rowView;
     }

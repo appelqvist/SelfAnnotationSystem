@@ -10,10 +10,10 @@ public class Label {
 
     private String activityType, activityLabelOptions;
     private int activityValue;
-    private Date time;
+    private String time;
 
 
-    public Label(String activityType, int activityValue, Date time) {
+    public Label(String activityType, int activityValue, String time) {
         this.activityType = activityType;
         this.activityValue = activityValue;
         this.time = time;
@@ -38,11 +38,11 @@ public class Label {
         return activityType;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

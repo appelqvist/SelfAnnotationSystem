@@ -76,12 +76,12 @@ public class LifeLogActivity extends Activity {
     private void viewLayout() {
         Log.d("viewlayout()", "skapa");
 
-        for(int i = 0; i < 10; i++) {       // Dummy loop
-            getSteps();
-            getWeight();
-        }
-
-        labels.add(new Label("steps", 2000, null)); // Dummy value
+//        for(int i = 0; i < 10; i++) {       // Dummy loop
+//            getSteps();
+//            getWeight();
+//        }
+        //labels.add(new Label("steps", 2000, null)); // Dummy value
+        getPhysicalActivites();
         setContentView(R.layout.label_view);
         adapter = new ActivitysFeedAdapter(this, R.layout.row_view, labels);
         feedListView = (ListView) findViewById(R.id.feed_list_view);
@@ -287,7 +287,7 @@ public class LifeLogActivity extends Activity {
 
     public int getSteps(){
         Label labelsteps = new Label("Steps");
-        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL+ "/activities?start_time=2017-02-06T00:00:00.000Z&end_time=2017-02-08T20:00:00.000Z&type=physical:walk");
+        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL+ "/activities?start_time=2017-02-01T00:00:00.000Z&end_time=2017-02-013T20:00:00.000Z&type=physical:walk");
         if(obj != null){
 
             JsonObject x = (JsonObject)obj.getAsJsonArray("result").get(0);
@@ -308,5 +308,33 @@ public class LifeLogActivity extends Activity {
             return 0;
         }
 
+    }
+
+
+    public void getPhysicalActivites(){
+        Label activityLabel; // sätt till vilken aktivitet
+        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL+ "/activities?start_time=2017-02-06T00:00:00.000Z&end_time=2017-02-13T20:00:00.000Z&type=physical");
+        if(obj != null){
+            JsonArray jsonPhysical = obj.getAsJsonArray("result");
+            for(JsonElement i : jsonPhysical){
+                JsonObject newObject = (JsonObject)i;
+                Log.d("newObjekt",newObject + "");
+                JsonArray y = newObject.getAsJsonObject("details").getAsJsonArray("steps");
+                Log.d(y + "", "Y variable");
+                int sum = 0;
+                for(JsonElement o : y){
+                    sum += o.getAsInt();
+                }
+                String date = newObject.get("startTime").getAsString();
+                String outstring;
+                outstring = date.substring(0,10) + "\t";
+                outstring += "Klockan: " + date.substring(11,16);
+                activityLabel = new Label(newObject.get("subtype").getAsString(), sum , outstring );
+
+                labels.add(activityLabel);
+            }
+
+
+        }
     }
 }
