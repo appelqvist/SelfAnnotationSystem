@@ -1,1 +1,23 @@
-app/src/main/java/exjobb/selfannotationsystem/Credentials.java
+#JAVA CLASSES
+/app/src/main/java/exjobb/selfannotationsystem/Credentials.java
+
+#GRADLE FOLDERS
+!.gradle/*
+!.idea/*
+/gradle/*
+/app/build/*
+
+#GRADLE FILES
+/build.gradle
+/gradle.properties
+/gradlew
+/gradlew.bat
+/local.properties
+/SelfAnnotationSystem.iml
+/settings.gradle
+/app/app.iml
+/app/build.gradle
+/proguard-rules.pro
+
+#FILES
+*.DS_Store
