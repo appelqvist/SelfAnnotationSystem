@@ -42,7 +42,7 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
                     (double)feeds.get(position).getDistance() /1000 + " km"));
             activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
             imgView.setImageResource(R.mipmap.walk);
-            timeTextView.setText("Klockan " + feeds.get(position).getDate().substring(11,16));
+            timeTextView.setText("Klockan " + feeds.get(position).getTime());
         }
         else if(feeds.get(position).getActivityType().equals("run")) {
             activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
@@ -50,7 +50,7 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
                     (double)feeds.get(position).getDistance() /1000 + " km"));
             activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
             imgView.setImageResource(R.mipmap.runner);
-            timeTextView.setText("Klockan " + feeds.get(position).getDate().substring(11,16));
+            timeTextView.setText("Klockan " + feeds.get(position).getTime());
         }
         else if(feeds.get(position).getActivityType().equals("cycle")) {
             activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
@@ -58,7 +58,7 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
                     (double)feeds.get(position).getDistance() /1000 + " km"));
             activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
             imgView.setImageResource(R.mipmap.cycling);
-            timeTextView.setText("Klockan " + feeds.get(position).getDate().substring(11,16));
+            timeTextView.setText("Klockan " + feeds.get(position).getTime());
         }
 
         return rowView;

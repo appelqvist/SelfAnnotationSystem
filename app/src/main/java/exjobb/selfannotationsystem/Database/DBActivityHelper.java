@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.util.StringBuilderPrinter;
 
 import exjobb.selfannotationsystem.ActivityWrapper;
@@ -18,7 +19,7 @@ public class DBActivityHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "activites.db";
     private static final String TABLE_ACTIVITES = "activities";
-    private static final String COLUMN_ID = "_id"; // Tid
+    private static final String COLUMN_ID = "A_id";
     private static final String COLUMN_STEPS = "steps";
     private static final String COLUMN_DISTANCE = "distance";
     private static final String COLUMN_TYPE = "type";
@@ -34,13 +35,15 @@ public class DBActivityHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_ACTIVITES  + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_ID + " INTEGER AUTOINCREMENT, " + //PRIMARY KEY AUTOINCREMENT
                 COLUMN_DATE + " TEXT, " +
                 COLUMN_TIME + " TEXT, " +
                 COLUMN_STEPS + " INTEGER, " +
                 COLUMN_DISTANCE + " INTEGER, " +
                 COLUMN_TYPE + " TEXT, " +
-                COLUMN_LABEL + " INTEGER " +
+                COLUMN_LABEL + " INTEGER, "+
+                "PRIMARY KEY ("+COLUMN_ID+"),"+
+                "FOREIGN KEY ("+COLUMN_LABEL+") REFERENCES "+DBLabelHelper.TABLE_LABELS+"("+DBLabelHelper.COLUMN_ID+")"+
                 ");";
         db.execSQL(query);
     }
@@ -59,7 +62,7 @@ public class DBActivityHelper extends SQLiteOpenHelper {
         values.put(COLUMN_STEPS, activityWrapper.getSteps());
         values.put(COLUMN_DISTANCE, activityWrapper.getDistance());
         values.put(COLUMN_TYPE, activityWrapper.getActivityType());
-        values.put(COLUMN_LABEL, "HÄR KOMMER LABEL");
+        values.put(COLUMN_LABEL, 0); //Default
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_ACTIVITES, null, values);
         db.close();
@@ -67,7 +70,7 @@ public class DBActivityHelper extends SQLiteOpenHelper {
 
     //Print out database
     public ActivityWrapper[] printDB(){
-        int steps, distance, dateIndex, timeIndex, type;
+        int steps, distance, dateIndex, timeIndex, type, labelIndex;
         SQLiteDatabase db = getReadableDatabase();
         String query = " SELECT * FROM " + TABLE_ACTIVITES;
         Cursor c = db.rawQuery(query, null);
@@ -77,20 +80,21 @@ public class DBActivityHelper extends SQLiteOpenHelper {
         dateIndex = c.getColumnIndex(COLUMN_DATE);
         timeIndex = c.getColumnIndex(COLUMN_TIME);
         type = c.getColumnIndex(COLUMN_TYPE);
+        labelIndex = c.getColumnIndex(COLUMN_LABEL);
 
         for(int i=0; i< activities.length; i++){
             c.moveToPosition(i);
-            activities[i] = new ActivityWrapper(c.getString(dateIndex),c.getInt(steps),
-                    c.getString(type), c.getString(timeIndex), c.getInt(distance));
+            activities[i] = new ActivityWrapper(c.getString(dateIndex),c.getString(timeIndex),
+                    c.getInt(steps), c.getInt(distance), c.getString(type), c.getString(labelIndex));
         }
         db.close();
         return activities;
     }
 
     public ActivityWrapper[] getActivitesByDate(String date){
-        int steps, distance, dateIndex, timeIndex, type;
+        int steps, distance, dateIndex, timeIndex, type, labelIndex;
         SQLiteDatabase db = getReadableDatabase();
-        String query = " SELECT * FROM " + TABLE_ACTIVITES + " WHERE date == " + date ;
+        String query = " SELECT * FROM " + TABLE_ACTIVITES+ " WHERE "+COLUMN_DATE+"='"+ date +"'";
         Cursor c = db.rawQuery(query, null);
         ActivityWrapper[] activities = new ActivityWrapper[c.getCount()];
         steps = c.getColumnIndex(COLUMN_STEPS);
@@ -98,10 +102,12 @@ public class DBActivityHelper extends SQLiteOpenHelper {
         dateIndex = c.getColumnIndex(COLUMN_DATE);
         timeIndex = c.getColumnIndex(COLUMN_TIME);
         type = c.getColumnIndex(COLUMN_TYPE);
+        labelIndex = c.getColumnIndex(COLUMN_LABEL);
+
         for(int i=0; i< activities.length; i++){
             c.moveToPosition(i);
-            activities[i] = new ActivityWrapper(c.getString(dateIndex),c.getInt(steps),
-                    c.getString(type), c.getString(timeIndex), c.getInt(distance));
+            activities[i] = new ActivityWrapper(c.getString(dateIndex),c.getString(timeIndex),
+                    c.getInt(steps), c.getInt(distance), c.getString(type), c.getString(labelIndex));
         }
         db.close();
         return activities;

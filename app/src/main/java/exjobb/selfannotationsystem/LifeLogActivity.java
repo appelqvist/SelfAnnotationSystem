@@ -28,13 +28,12 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
 import exjobb.selfannotationsystem.Database.DBActivityHelper;
+import exjobb.selfannotationsystem.Database.DBLabelHelper;
 
 
 public class LifeLogActivity extends android.app.Activity {
@@ -54,7 +53,8 @@ public class LifeLogActivity extends android.app.Activity {
     private PopupWindow pw;
     private String value;
 
-    private DBActivityHelper db = new DBActivityHelper(this, null,null,1);
+    private DBActivityHelper dbActivityHelper = new DBActivityHelper(this, null,null,1);
+    private DBLabelHelper dbLabelHelper = new DBLabelHelper(this, null,null,1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -329,7 +329,7 @@ public class LifeLogActivity extends android.app.Activity {
 
                     String temp = "";
                     boolean indb = false;
-                    for(ActivityWrapper wrapper : db.printDB()){
+                    for(ActivityWrapper wrapper : dbActivityHelper.printDB()){
                         temp = wrapper.getDate() + "-" +wrapper.getTime();
                         if(temp.equals(outstring)){
                             indb = true;
@@ -354,9 +354,9 @@ public class LifeLogActivity extends android.app.Activity {
                     Log.d("DISTANCE", "" + distance);
 
 
-                    activityActivityWrapper = new ActivityWrapper(type, steps, theDate, theTime, (int)distance );
-                    db.addActivity(activityActivityWrapper);
-                    for(ActivityWrapper act : db.printDB()) {
+                    activityActivityWrapper = new ActivityWrapper(theDate, theTime, steps, (int)distance, type);
+                    dbActivityHelper.addActivity(activityActivityWrapper);
+                    for(ActivityWrapper act : dbActivityHelper.printDB()) {
                         Log.d("FRÅN DATABAS", act.getDate() + " " + act.getActivityType() + " " + act.getDistance());
                     }
                 }
@@ -368,7 +368,11 @@ public class LifeLogActivity extends android.app.Activity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c.getTime());
-        Log.d(Arrays.asList(db.getActivitesByDate(formattedDate)).toString(), " LOG FROM DATABASE BY DATE");
-        return Arrays.asList(db.getActivitesByDate(formattedDate));
+
+        Log.d("DATE", formattedDate);
+        Log.d("DATABASDATE", dbActivityHelper.printDB()[0].getDate().toString());
+
+        Log.d(Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate)).toString(), " LOG FROM DATABASE BY DATE");
+        return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
     }
 }
