@@ -7,10 +7,15 @@ package exjobb.selfannotationsystem.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.LinkedList;
+import java.util.List;
+
+import exjobb.selfannotationsystem.ActivityWrapper;
 
 public class DBLabelHelper extends SQLiteOpenHelper {
 
@@ -19,6 +24,7 @@ public class DBLabelHelper extends SQLiteOpenHelper {
     public static final String TABLE_LABELS = "labels";
     public static final String COLUMN_ID = "L_id";
     private static final String COLUMN_VALUE = "value";
+    private List<String> allLabels;
 
     public DBLabelHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -49,5 +55,21 @@ public class DBLabelHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_LABELS);
         onCreate(db);
+    }
+
+    public List<String> getAllLabels() {
+        int labelIndex;
+        SQLiteDatabase db = getReadableDatabase();
+        String query = " SELECT * FROM " + TABLE_LABELS;
+        Cursor c = db.rawQuery(query, null);
+        LinkedList<String> labels = new LinkedList<>();
+        labelIndex = c.getColumnIndex(COLUMN_VALUE);
+
+        for(int i=0; i< c.getCount(); i++){
+            c.moveToPosition(i);
+            labels.add(c.getString(labelIndex));
+        }
+        Log.d("LISTAN",labels.toString());
+        return labels;
     }
 }

@@ -45,8 +45,10 @@ public class LifeLogActivity extends android.app.Activity {
     private static final String ACTIVITIES_URL = "https://platform.lifelog.sonymobile.com/v1/users/me";
 
     private ActivitysFeedAdapter adapter;
+    private LabelAdapter labelAdapter;
     private ActivityWrapper activityWrapper;
     private ListView feedListView;
+    private ListView labelListView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Handler handler = new Handler();
     private boolean refresh = false;
@@ -112,9 +114,13 @@ public class LifeLogActivity extends android.app.Activity {
     }
 
     private void inflatePopup(String type) {
+        Log.d("LOG", "POPUP");
         LayoutInflater inflater = (LayoutInflater) LifeLogActivity.this.getSystemService(LifeLogActivity.LAYOUT_INFLATER_SERVICE);
         pw = new PopupWindow(inflater.inflate(R.layout.label_options_view, null), ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pw.showAtLocation(LifeLogActivity.this.feedListView, Gravity.CENTER, 0, 0);
+        labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels());
+        labelListView = (ListView) findViewById(R.id.popup_listview);
+        labelListView.setAdapter(labelAdapter);
     }
 
     private void radioValue(View v) {
