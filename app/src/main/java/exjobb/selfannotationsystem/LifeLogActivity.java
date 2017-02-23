@@ -113,23 +113,8 @@ public class LifeLogActivity extends android.app.Activity {
 
     private void inflatePopup(String type) {
         LayoutInflater inflater = (LayoutInflater) LifeLogActivity.this.getSystemService(LifeLogActivity.LAYOUT_INFLATER_SERVICE);
-        pw = new PopupWindow(inflater.inflate(R.layout.popup_window, null), ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        pw = new PopupWindow(inflater.inflate(R.layout.label_options_view, null), ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pw.showAtLocation(LifeLogActivity.this.feedListView, Gravity.CENTER, 0, 0);
-        if (pw.isShowing()) {
-            View v = pw.getContentView();
-            radioValue(v);
-            Button backBtn = (Button) v.findViewById(R.id.popUpBack);
-            backBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    if(!value.equals("")){
-//                        activityWrapper.setAnnotationValue(value);
-//                    }
-                    pw.dismiss();
-                }
-            });
-
-        }
     }
 
     private void radioValue(View v) {
