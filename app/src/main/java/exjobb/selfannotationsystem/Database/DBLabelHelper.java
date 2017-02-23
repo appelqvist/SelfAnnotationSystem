@@ -38,17 +38,16 @@ public class DBLabelHelper extends SQLiteOpenHelper {
                 ");";
         db.execSQL(query);
         String[] defaults = {"No label","Transportsträcka", "Stressad aktivitet", "Omedveten aktivitet", "Jobbaktivitet", "Skolgympa"};
-        for(String s : defaults){
-            addLabel(s);
+
+        for(String s : defaults) {
+            addLabel(db, s);
         }
     }
 
-    public void addLabel(String text){
+    public void addLabel(SQLiteDatabase db, String text){
         ContentValues values = new ContentValues();
         values.put(COLUMN_VALUE, text);
-        SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_LABELS, null, values);
-        db.close();
     }
 
     @Override
