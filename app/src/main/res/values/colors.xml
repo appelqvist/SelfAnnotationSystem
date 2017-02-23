@@ -2,8 +2,10 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4081</color>
     <color name="colorfacebook">#3b5998</color>
     <color name="colorinstagram">#675144</color>
     <color name="colortwitter">#00aced</color>
+    <color name="colorAnnotated">#8CD790</color>
+    <color name="colorPopup">#D7FFF1</color>
 </resources>

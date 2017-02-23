@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_marginTop="120dp"
+    android:layout_height="250dp"
+    android:id="@+id/popup_window"
+    android:background="@color/colorPopup">
+
+    <TextView
+        android:text="Annotate your data"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/labelHeading"
+        android:textSize="30sp"
+        android:textAlignment="center" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:id="@+id/radioGroup">
+
+        <RadioButton
+            android:text="TransportSträcka"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioTransport"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <RadioButton
+            android:text="JobbSteg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioJobbSteg"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <RadioButton
+        android:text="Shopping"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioShopping"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+        <RadioButton
+        android:text="LagarMat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioCooking"
+        android:textAlignment="center"
+            android:textSize="24sp" />
+
+    </RadioGroup>
+
+    <Button
+        android:text="Tillbaka"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/popUpBack"
+        android:textAlignment="center" />
+</LinearLayout>

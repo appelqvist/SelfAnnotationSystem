@@ -1,38 +1,43 @@
 package exjobb.selfannotationsystem;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+
+import exjobb.selfannotationsystem.Database.DBActivityHelper;
 
 
-
-public class LifeLogActivity extends Activity {
+public class LifeLogActivity extends android.app.Activity {
     private static final int AUTHENTICATION_REQUEST = 1;
     private static final String PREFS_NAME = "PrefsFile";
     private static final String PREFS_KEY_ACCESS_TOKEN = "ACCESS_TOKEN";
@@ -41,8 +46,15 @@ public class LifeLogActivity extends Activity {
     private static final String ACTIVITIES_URL = "https://platform.lifelog.sonymobile.com/v1/users/me";
 
     private ActivitysFeedAdapter adapter;
-    private List<Label> labels = new ArrayList<>();
+    private ActivityWrapper activityWrapper;
     private ListView feedListView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private Handler handler = new Handler();
+    private boolean refresh = false;
+    private PopupWindow pw;
+    private String value;
+
+    private DBActivityHelper db = new DBActivityHelper(this, null,null,1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +76,9 @@ public class LifeLogActivity extends Activity {
             steps.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Log.d("VIKT ", ""+getWeight());
-                    Log.d("STEPS", ""+getSteps());
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, "No info yet", Toast.LENGTH_LONG);
+                    toast.show();
                 }
             });
         } else {
@@ -74,24 +87,90 @@ public class LifeLogActivity extends Activity {
     }
 
     private void viewLayout() {
-        Log.d("viewlayout()", "skapa");
-
-//        for(int i = 0; i < 10; i++) {       // Dummy loop
-//            getSteps();
-//            getWeight();
-//        }
-        //labels.add(new Label("steps", 2000, null)); // Dummy value
         getPhysicalActivites();
         setContentView(R.layout.label_view);
-        adapter = new ActivitysFeedAdapter(this, R.layout.row_view, labels);
+        adapter = new ActivitysFeedAdapter(this, R.layout.row_view, getActivites());
         feedListView = (ListView) findViewById(R.id.feed_list_view);
         feedListView.setAdapter(adapter);
-        Log.d("viewlayout()", "efter adapter");
+
+        feedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                activityWrapper = (ActivityWrapper) parent.getItemAtPosition(position);
+                inflatePopup(activityWrapper.getActivityType()); // Skickar med type så vi kan ge rätt activityWrapper till rätt aktivitet
+            }
+        });
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.notifyDataSetChanged();
+                handler.post(refreshing);
+            }
+        });
     }
 
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
+    private void inflatePopup(String type) {
+        LayoutInflater inflater = (LayoutInflater) LifeLogActivity.this.getSystemService(LifeLogActivity.LAYOUT_INFLATER_SERVICE);
+        pw = new PopupWindow(inflater.inflate(R.layout.popup_window, null), ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        pw.showAtLocation(LifeLogActivity.this.feedListView, Gravity.CENTER, 0, 0);
+        if (pw.isShowing()) {
+            View v = pw.getContentView();
+            radioValue(v);
+            Button backBtn = (Button) v.findViewById(R.id.popUpBack);
+            backBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    if(!value.equals("")){
+//                        activityWrapper.setAnnotationValue(value);
+//                    }
+                    pw.dismiss();
+                }
+            });
+
+        }
     }
+
+    private void radioValue(View v) {
+        final View radioView = v;
+        RadioGroup rg = (RadioGroup) radioView.findViewById(R.id.radioGroup);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton buttonValue;
+                buttonValue =  (RadioButton) radioView.findViewById(checkedId);
+                value = (String)buttonValue.getText();
+                System.out.println(value);
+            }
+        });
+    }
+
+    private final Runnable refreshing = new Runnable(){
+        public void run(){
+            try {
+                if(isRefreshing()){
+                    handler.postDelayed(this, 1000);
+                }else{
+                    swipeRefreshLayout.setRefreshing(false);
+                    adapter.notifyDataSetChanged();
+                    getPhysicalActivites();
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private boolean isRefreshing() {
+        return refresh;
+    }
+
+    private void refreshing(boolean refreshing){
+        this.refresh = refreshing;
+    }
+
 
     public void login(View v){
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -224,117 +303,72 @@ public class LifeLogActivity extends Activity {
         return null;
 
     }
-    private Double getBMR(){
-        JsonObject obj = getHTTPResponseSync(PROFILE_URL);
-        if (obj != null) {
-            return obj.getAsJsonArray("result").get(0).getAsJsonObject().get("bmr").getAsDouble();
-        }
-        else {
-            return null;
-        }
-    }
-
-    private Double getBM(){
-        Double bmr = getBMR();
-        Calendar cal = Calendar.getInstance();
-        Double hour = cal.get(Calendar.HOUR_OF_DAY) + (cal.get(Calendar.MINUTE) / 60.0);
-        Log.i("HOUR", Double.toString(hour));
-
-        return bmr * hour;
-    }
-
-    private Double getCalorieFromJson(JsonObject o){
-        Double sumCalorie = 0.0;
-        for(JsonElement je : o.getAsJsonArray("result")){
-            Log.i("Activity ID", je.getAsJsonObject().get("id").getAsString());
-            Double calorie = 0.0;
-            JsonArray ja = je.getAsJsonObject().get("details").getAsJsonObject().getAsJsonArray("aee");
-            if( ja == null)
-                continue;
-            for (JsonElement e : ja){
-                calorie += e.getAsDouble();
-            }
-            sumCalorie += calorie;
-            Log.i("Calorie", Double.toString(calorie));
-        }
-        return sumCalorie;
-    }
-
-    public Double getCalorie(View v) {
-        String url = "https://platform.lifelog.sonymobile.com/v1/users/me/activities";// +
-//                    "?start_time=2015-02-22T00:00:00.000+0900";
-        JsonObject obj = getHTTPResponseSync(url);
-        Double aae = getCalorieFromJson(obj);
-        Double bm = getBM();
-        return aae + bm;
-    }
-
-    public Double getWeight() {
-        Label label = new Label("Weight");
-        JsonObject obj = getHTTPResponseSync(PROFILE_URL);
-        if (obj != null) {
-            label.setValue((int)obj.getAsJsonArray("result").get(0).getAsJsonObject().get("weight").getAsDouble());
-            label.setActivityType("weight");
-            labels.add(label);
-            setLabels(labels);
-            return obj.getAsJsonArray("result").get(0).getAsJsonObject().get("weight").getAsDouble();
-        }
-        else {
-            Log.e("getWeight()", "ERROR: return dummy value (70.0 kg)");
-            return 70.0;
-        }
-    }
-
-    public int getSteps(){
-        Label labelsteps = new Label("Steps");
-        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL+ "/activities?start_time=2017-02-01T00:00:00.000Z&end_time=2017-02-013T20:00:00.000Z&type=physical:walk");
-        if(obj != null){
-
-            JsonObject x = (JsonObject)obj.getAsJsonArray("result").get(0);
-            x = x.getAsJsonObject("details");
-
-            JsonArray y = x.getAsJsonArray("steps");
-            int sum = 0;
-            for(JsonElement o : y){
-                sum += o.getAsInt();
-            }
-            labelsteps.setValue(sum);
-            labelsteps.setActivityType("steps");
-            labels.add(labelsteps);
-            setLabels(labels);
-            return sum;
-        }else{
-            Log.d("NULL", "NULL");
-            return 0;
-        }
-
-    }
 
 
     public void getPhysicalActivites(){
-        Label activityLabel; // sätt till vilken aktivitet
-        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL+ "/activities?start_time=2017-02-06T00:00:00.000Z&end_time=2017-02-13T20:00:00.000Z&type=physical");
+        ActivityWrapper activityActivityWrapper; // sätt till vilken aktivitet
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = df.format(c.getTime());
+
+        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL+ "/activities?start_time=" + formattedDate + "T00:00:00.000Z&end_time=" + formattedDate + "T23:59:59.000Z&type=physical");
         if(obj != null){
+            if(adapter != null){
+                adapter.clear();
+            }
             JsonArray jsonPhysical = obj.getAsJsonArray("result");
             for(JsonElement i : jsonPhysical){
+
                 JsonObject newObject = (JsonObject)i;
-                Log.d("newObjekt",newObject + "");
-                JsonArray y = newObject.getAsJsonObject("details").getAsJsonArray("steps");
-                Log.d(y + "", "Y variable");
-                int sum = 0;
-                for(JsonElement o : y){
-                    sum += o.getAsInt();
+                String type =  newObject.get("subtype").getAsString();
+                if(!type.equals("other")) {
+                    String date = newObject.get("startTime").getAsString();
+                    String theDate = date.substring(0,10);
+                    String theTime = date.substring(11,19);
+                    String outstring = theDate + "-" + theTime;
+
+                    String temp = "";
+                    boolean indb = false;
+                    for(ActivityWrapper wrapper : db.printDB()){
+                        temp = wrapper.getDate() + "-" +wrapper.getTime();
+                        if(temp.equals(outstring)){
+                            indb = true;
+                            break;
+                        }
+                    }
+
+                    if(indb){
+                        continue;
+                    }
+
+                    JsonArray jsonStepsArray = newObject.getAsJsonObject("details").getAsJsonArray("steps");
+                    int steps = 0;
+                    for (JsonElement o : jsonStepsArray) {
+                        steps += o.getAsInt();
+                    }
+                    JsonArray jsonDistanceArray  = newObject.getAsJsonObject("details").getAsJsonArray("distance");
+                    float distance = 0;
+                    for(JsonElement dist : jsonDistanceArray){
+                        distance += dist.getAsFloat();
+                    }
+                    Log.d("DISTANCE", "" + distance);
+
+
+                    activityActivityWrapper = new ActivityWrapper(type, steps, theDate, theTime, (int)distance );
+                    db.addActivity(activityActivityWrapper);
+                    for(ActivityWrapper act : db.printDB()) {
+                        Log.d("FRÅN DATABAS", act.getDate() + " " + act.getActivityType() + " " + act.getDistance());
+                    }
                 }
-                String date = newObject.get("startTime").getAsString();
-                String outstring;
-                outstring = date.substring(0,10) + "\t";
-                outstring += "Klockan: " + date.substring(11,16);
-                activityLabel = new Label(newObject.get("subtype").getAsString(), sum , outstring );
-
-                labels.add(activityLabel);
             }
-
-
         }
+    }
+
+    public List<ActivityWrapper> getActivites() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = df.format(c.getTime());
+        Log.d(Arrays.asList(db.getActivitesByDate(formattedDate)).toString(), " LOG FROM DATABASE BY DATE");
+        return Arrays.asList(db.getActivitesByDate(formattedDate));
     }
 }

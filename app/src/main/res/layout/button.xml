@@ -7,19 +7,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@mipmap/sony"
     tools:context="exjobb.selfannotationsystem.MainActivity">
 
 
     <Button
-        android:text="Button"
+        android:text="@string/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="185dp"
-        android:id="@+id/button" />
+        android:id="@+id/button"/>
 
     <Button
-        android:text="HÄMTA"
+        android:text="Info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -14,12 +14,12 @@ import java.util.List;
  * Created by Marten on 2017-02-07.
  */
 
-public class ActivitysFeedAdapter extends ArrayAdapter<Label> {
+public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
 
     private Context context;
-    private List<Label> feeds;
+    private List<ActivityWrapper> feeds;
 
-    public ActivitysFeedAdapter(Context context, int textViewResource, List<Label> objects) {
+    public ActivitysFeedAdapter(Context context, int textViewResource, List<ActivityWrapper> objects) {
         super(context, textViewResource, objects);
         this.feeds = objects;
         this.context = context;
@@ -34,24 +34,32 @@ public class ActivitysFeedAdapter extends ArrayAdapter<Label> {
         TextView activityValueTextView = (TextView) rowView.findViewById(R.id.tvActivityValue);
         TextView activityTypeTextView = (TextView) rowView.findViewById(R.id.tvActivityType);
         TextView timeTextView = (TextView) rowView.findViewById(R.id.tvTime);
+        ImageView imgView = (ImageView) rowView.findViewById(R.id.imageViewActivity);
 
-        activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
-        activityValueTextView.setText(String.valueOf(feeds.get(position).getValue()));
-        activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
-        timeTextView.setText(feeds.get(position).getTime());
-
-
-//        if(feeds.get(position).getActivityType().equals("steps")){
-//            activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
-//            activityValueTextView.setText(String.valueOf(feeds.get(position).getValue()));
-//            activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
-//        }
-//        else if(feeds.get(position).getActivityType().equals("weight")){
-//            activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
-//            activityValueTextView.setText(String.valueOf(feeds.get(position).getValue()));
-//            activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colorfacebook));
-//        }
-
+        if(feeds.get(position).getActivityType().equals("walk")) {
+            activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
+            activityValueTextView.setText(String.valueOf("Steg: " + feeds.get(position).getSteps() +"\nDist: " +
+                    (double)feeds.get(position).getDistance() /1000 + " km"));
+            activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
+            imgView.setImageResource(R.mipmap.walk);
+            timeTextView.setText("Klockan " + feeds.get(position).getDate().substring(11,16));
+        }
+        else if(feeds.get(position).getActivityType().equals("run")) {
+            activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
+            activityValueTextView.setText(String.valueOf("Steg: " + feeds.get(position).getSteps() +"\nDist: " +
+                    (double)feeds.get(position).getDistance() /1000 + " km"));
+            activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
+            imgView.setImageResource(R.mipmap.runner);
+            timeTextView.setText("Klockan " + feeds.get(position).getDate().substring(11,16));
+        }
+        else if(feeds.get(position).getActivityType().equals("cycle")) {
+            activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
+            activityValueTextView.setText(String.valueOf("Steg: " + feeds.get(position).getSteps() +"\nDist: " +
+                    (double)feeds.get(position).getDistance() /1000 + " km"));
+            activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
+            imgView.setImageResource(R.mipmap.cycling);
+            timeTextView.setText("Klockan " + feeds.get(position).getDate().substring(11,16));
+        }
 
         return rowView;
     }
