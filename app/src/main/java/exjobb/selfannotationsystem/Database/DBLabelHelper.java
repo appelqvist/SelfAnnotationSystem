@@ -33,8 +33,9 @@ public class DBLabelHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_LABELS + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_VALUE + " TEXT "+
+                COLUMN_ID + " INTEGER AUTO_INCREMENT, " +
+                COLUMN_VALUE + " TEXT, "+
+                "PRIMARY KEY ("+COLUMN_ID+")"+
                 ");";
         db.execSQL(query);
         String[] defaults = {"No label","Transportsträcka", "Stressad aktivitet", "Omedveten aktivitet", "Jobbaktivitet", "Skolgympa"};

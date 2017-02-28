@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -115,11 +117,16 @@ public class LifeLogActivity extends android.app.Activity {
 
     private void inflatePopup(String type) {
         Log.d("LOG", "POPUP");
-        LayoutInflater inflater = (LayoutInflater) LifeLogActivity.this.getSystemService(LifeLogActivity.LAYOUT_INFLATER_SERVICE);
-        pw = new PopupWindow(inflater.inflate(R.layout.label_options_view, null), ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        pw.showAtLocation(LifeLogActivity.this.feedListView, Gravity.CENTER, 0, 0);
+        //LayoutInflater inflater = (LayoutInflater) LifeLogActivity.this.getSystemService(LifeLogActivity.LAYOUT_INFLATER_SERVICE);
+        //pw = new PopupWindow(inflater.inflate(R.layout.label_options_view, null ), ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        //pw.showAtLocation(LifeLogActivity.this.feedListView, Gravity.CENTER, 0, 0);
+        View popupView = getLayoutInflater().inflate(R.layout.label_options_view,null);
+        pw = new PopupWindow(popupView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        pw.setAnimationStyle(android.R.style.Animation_Dialog);
+        pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
         labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels());
-        labelListView = (ListView) findViewById(R.id.popup_listview);
+        labelListView = (ListView) popupView.findViewById(R.id.popup_listview);
+        labelListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         labelListView.setAdapter(labelAdapter);
     }
 

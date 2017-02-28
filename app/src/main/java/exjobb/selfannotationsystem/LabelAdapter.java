@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RadioButton;
 
 import java.util.List;
 
@@ -28,8 +30,10 @@ public class LabelAdapter  extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View labelOptionsView = inflater.inflate(R.layout.label_options_view, parent, false);
+        View labelOptionsView = inflater.inflate(R.layout.radio_row, parent, false);
 
+        RadioButton radioButton = (RadioButton)labelOptionsView.findViewById(R.id.radioButtonLabel);
+        radioButton.setText(labels.get(position));
 
         return labelOptionsView;
 
