@@ -7,20 +7,17 @@ public class ActivityWrapper {
     private int steps;
     private String date;
     private String time;
-    private String labelID;
+    private int labelID;
 
-    public ActivityWrapper(String date, String time, int steps, int distance, String activityType) {
+    public ActivityWrapper(String date, String time, int steps, int distance, String activityType, int labelID) {
         this.activityType = activityType;
         this.steps = steps;
         this.date = date;
         this.distance = distance;
         this.time = time;
+        this.labelID = labelID;
     }
 
-    public ActivityWrapper(String date, String time, int steps, int distance, String activityType, String label) {
-        this(date, time, steps, distance, activityType);
-        this.labelID = label;
-    }
 
     public int getSteps() {
         return steps;
@@ -42,5 +39,5 @@ public class ActivityWrapper {
         return time;
     }
 
-    public String getLabel() { return labelID; }
+    public int getLabelID() { return labelID; }
 }

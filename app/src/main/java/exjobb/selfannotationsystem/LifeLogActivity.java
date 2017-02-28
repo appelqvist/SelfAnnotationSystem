@@ -101,7 +101,8 @@ public class LifeLogActivity extends android.app.Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 activityWrapper = (ActivityWrapper) parent.getItemAtPosition(position);
-                inflatePopup(activityWrapper.getActivityType()); // Skickar med type så vi kan ge rätt activityWrapper till rätt aktivitet
+
+                inflatePopup(activityWrapper.getActivityType(), activityWrapper.getLabelID()); // Skickar med type så vi kan ge rätt activityWrapper till rätt aktivitet
             }
         });
 
@@ -115,33 +116,15 @@ public class LifeLogActivity extends android.app.Activity {
         });
     }
 
-    private void inflatePopup(String type) {
+    private void inflatePopup(String type, int id) {
         Log.d("LOG", "POPUP");
-        //LayoutInflater inflater = (LayoutInflater) LifeLogActivity.this.getSystemService(LifeLogActivity.LAYOUT_INFLATER_SERVICE);
-        //pw = new PopupWindow(inflater.inflate(R.layout.label_options_view, null ), ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        //pw.showAtLocation(LifeLogActivity.this.feedListView, Gravity.CENTER, 0, 0);
         View popupView = getLayoutInflater().inflate(R.layout.label_options_view,null);
         pw = new PopupWindow(popupView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pw.setAnimationStyle(android.R.style.Animation_Dialog);
         pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-        labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels());
+        labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), id);
         labelListView = (ListView) popupView.findViewById(R.id.popup_listview);
-        labelListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         labelListView.setAdapter(labelAdapter);
-    }
-
-    private void radioValue(View v) {
-        final View radioView = v;
-        RadioGroup rg = (RadioGroup) radioView.findViewById(R.id.radioGroup);
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton buttonValue;
-                buttonValue =  (RadioButton) radioView.findViewById(checkedId);
-                value = (String)buttonValue.getText();
-                System.out.println(value);
-            }
-        });
     }
 
     private final Runnable refreshing = new Runnable(){
@@ -352,7 +335,7 @@ public class LifeLogActivity extends android.app.Activity {
                     Log.d("DISTANCE", "" + distance);
 
 
-                    activityActivityWrapper = new ActivityWrapper(theDate, theTime, steps, (int)distance, type);
+                    activityActivityWrapper = new ActivityWrapper(theDate, theTime, steps, (int)distance, type, 1);
                     dbActivityHelper.addActivity(activityActivityWrapper);
                     for(ActivityWrapper act : dbActivityHelper.printDB()) {
                         Log.d("FRÅN DATABAS", act.getDate() + " " + act.getActivityType() + " " + act.getDistance());
@@ -370,7 +353,11 @@ public class LifeLogActivity extends android.app.Activity {
         Log.d("DATE", formattedDate);
         Log.d("DATABASDATE", dbActivityHelper.printDB()[0].getDate().toString());
 
-        Log.d(Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate)).toString(), " LOG FROM DATABASE BY DATE");
+        Log.d(" LOG FROM DATABASEDATE" , Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate)).toString());
+        ActivityWrapper[] ls = dbActivityHelper.getActivitesByDate(formattedDate);
+        for(int i = 0; i < ls.length; i++){
+            Log.d(String.valueOf(i), String.valueOf(ls[i].getLabelID()));
+        }
         return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
     }
 }

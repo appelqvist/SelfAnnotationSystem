@@ -35,7 +35,7 @@ public class DBActivityHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_ACTIVITES  + "(" +
-                COLUMN_ID + " INTEGER AUTO_INCREMENT, " + //PRIMARY KEY AUTOINCREMENT
+                COLUMN_ID + " INTEGER, " + //PRIMARY KEY AUTOINCREMENT
                 COLUMN_DATE + " TEXT, " +
                 COLUMN_TIME + " TEXT, " +
                 COLUMN_STEPS + " INTEGER, " +
@@ -85,7 +85,7 @@ public class DBActivityHelper extends SQLiteOpenHelper {
         for(int i=0; i< activities.length; i++){
             c.moveToPosition(i);
             activities[i] = new ActivityWrapper(c.getString(dateIndex),c.getString(timeIndex),
-                    c.getInt(steps), c.getInt(distance), c.getString(type), c.getString(labelIndex));
+                    c.getInt(steps), c.getInt(distance), c.getString(type), c.getInt(labelIndex));
         }
         db.close();
         return activities;
@@ -107,7 +107,7 @@ public class DBActivityHelper extends SQLiteOpenHelper {
         for(int i=0; i< activities.length; i++){
             c.moveToPosition(i);
             activities[i] = new ActivityWrapper(c.getString(dateIndex),c.getString(timeIndex),
-                    c.getInt(steps), c.getInt(distance), c.getString(type), c.getString(labelIndex));
+                    c.getInt(steps), c.getInt(distance), c.getString(type), c.getInt(labelIndex));
         }
         db.close();
         return activities;
