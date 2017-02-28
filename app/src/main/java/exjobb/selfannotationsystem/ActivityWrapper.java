@@ -1,5 +1,7 @@
 package exjobb.selfannotationsystem;
 
+import android.util.Log;
+
 public class ActivityWrapper {
 
     private int distance;
@@ -7,7 +9,7 @@ public class ActivityWrapper {
     private int steps;
     private String date;
     private String time;
-    private int labelID;
+    private int labelID = -1;
 
     public ActivityWrapper(String date, String time, int steps, int distance, String activityType, int labelID) {
         this.activityType = activityType;
@@ -16,6 +18,7 @@ public class ActivityWrapper {
         this.distance = distance;
         this.time = time;
         this.labelID = labelID;
+        Log.d("ID SKA INTE 0 ÄR : ", labelID + " ");
     }
 
 

@@ -101,7 +101,7 @@ public class LifeLogActivity extends android.app.Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 activityWrapper = (ActivityWrapper) parent.getItemAtPosition(position);
-
+                Log.d("LABELID LIFELOG", "" + activityWrapper.getLabelID()+ activityWrapper.getActivityType() );
                 inflatePopup(activityWrapper.getActivityType(), activityWrapper.getLabelID()); // Skickar med type så vi kan ge rätt activityWrapper till rätt aktivitet
             }
         });
@@ -346,17 +346,18 @@ public class LifeLogActivity extends android.app.Activity {
     }
 
     public List<ActivityWrapper> getActivites() {
+        System.out.println(dbActivityHelper.getTableAsString());
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c.getTime());
 
         Log.d("DATE", formattedDate);
         Log.d("DATABASDATE", dbActivityHelper.printDB()[0].getDate().toString());
-
         Log.d(" LOG FROM DATABASEDATE" , Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate)).toString());
+
         ActivityWrapper[] ls = dbActivityHelper.getActivitesByDate(formattedDate);
         for(int i = 0; i < ls.length; i++){
-            Log.d(String.valueOf(i), String.valueOf(ls[i].getLabelID()));
+            Log.d("HÄR " + String.valueOf(i), String.valueOf(ls[i].getLabelID()));
         }
         return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
     }

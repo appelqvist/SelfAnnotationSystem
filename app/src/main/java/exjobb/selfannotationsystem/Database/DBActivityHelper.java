@@ -42,8 +42,8 @@ public class DBActivityHelper extends SQLiteOpenHelper {
                 COLUMN_DISTANCE + " INTEGER, " +
                 COLUMN_TYPE + " TEXT, " +
                 COLUMN_LABEL + " INTEGER, "+
-                "PRIMARY KEY ("+COLUMN_ID+"),"+
-                "FOREIGN KEY ("+COLUMN_LABEL+") REFERENCES "+DBLabelHelper.TABLE_LABELS+"("+DBLabelHelper.COLUMN_ID+")"+
+                "PRIMARY KEY ("+COLUMN_ID+")"+
+                //"FOREIGN KEY ("+COLUMN_LABEL+") REFERENCES "+DBLabelHelper.TABLE_LABELS+"("+DBLabelHelper.COLUMN_ID+")"+
                 ");";
         db.execSQL(query);
     }
@@ -62,10 +62,28 @@ public class DBActivityHelper extends SQLiteOpenHelper {
         values.put(COLUMN_STEPS, activityWrapper.getSteps());
         values.put(COLUMN_DISTANCE, activityWrapper.getDistance());
         values.put(COLUMN_TYPE, activityWrapper.getActivityType());
-        values.put(COLUMN_LABEL, 0); //Default
+        values.put(COLUMN_LABEL, activityWrapper.getLabelID()); //Default
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_ACTIVITES, null, values);
         db.close();
+    }
+
+    public String getTableAsString() {
+        SQLiteDatabase ddb = getReadableDatabase();
+        String tableString = String.format("Table %s:\n", TABLE_ACTIVITES);
+        Cursor allRows  = ddb.rawQuery("SELECT * FROM " + TABLE_ACTIVITES, null);
+        if (allRows.moveToFirst() ){
+            String[] columnNames = allRows.getColumnNames();
+            do {
+                for (String name: columnNames) {
+                    tableString += String.format("%s: %s\n", name,
+                            allRows.getString(allRows.getColumnIndex(name)));
+                }
+                tableString += "\n";
+
+            } while (allRows.moveToNext());
+        }
+        return tableString;
     }
 
     //Print out database
