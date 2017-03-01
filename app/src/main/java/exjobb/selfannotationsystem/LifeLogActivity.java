@@ -353,9 +353,11 @@ public class LifeLogActivity extends android.app.Activity {
         return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
     }
 
-    public void setLabel(int activityID, int labelID){
-        Log.d("VÄRDEN", activityID + " : " + labelID);
+    public void setLabel(int activityID, int labelID, int defaultID){
+        Log.d("VÄRDEN", activityID + " : " + labelID+ " : "+defaultID);
         dbActivityHelper.setLabelToActivity(activityID, labelID);
-        Log.d("DB print" , dbActivityHelper.getTableAsString());
+        labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), defaultID, activityID);
+       //labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), labelID, activityID);
+        //Log.d("DB print" , dbActivityHelper.getTableAsString());
     }
 }

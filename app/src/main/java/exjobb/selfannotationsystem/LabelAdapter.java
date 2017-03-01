@@ -25,7 +25,7 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
     private RadioButton mSelectedRB;
     private int mSelectedPosition = -1;
     private List<LabelWrapper> labels;
-    private int defaultID = -1;
+    protected int defaultID = -1;
     private LayoutInflater mLayoutInflater;
     private int activityID;
     private Context context;
@@ -55,8 +55,6 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
         }else{
             holder = (ViewHolder)view.getTag();
         }
-        Log.d("DEAFULT", defaultID + "");
-        Log.d("DEFAULT LABEL",(labels.get(position).getId() - 1) + " : "+ position);
 
         if(labels.get(position).getId() == defaultID){
             mSelectedPosition = position; // VÅR RAD
@@ -66,17 +64,26 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
         holder.radioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("DEFAULT INNAN CLICK", ""+defaultID);
                 if(position != mSelectedPosition && mSelectedRB != null){
                     mSelectedRB.setChecked(false);
-                    Log.d("POSITION i dubbel if", position + "");
                 }
+
                 mSelectedPosition = position;
                 mSelectedRB = (RadioButton)v;
-                defaultID = labels.get(position).getId();
-                Log.d("nu",""+defaultID);
+
+                ((RadioButton) v).setText(((RadioButton) v).getText()+"/");
+
+
                 LifeLogActivity l = (LifeLogActivity)context;
-                l.setLabel(activityID, labels.get(position).getId() );
+                defaultID = labels.get(position).getId();
+                l.setLabel(activityID, labels.get(position).getId(),defaultID);
+
+                Log.d("NYA DEFAULT", ""+defaultID+", klickade på position: "+labels.get(position).getTextValue());
             }
+
+
+
         });
 
         if(mSelectedPosition != position){

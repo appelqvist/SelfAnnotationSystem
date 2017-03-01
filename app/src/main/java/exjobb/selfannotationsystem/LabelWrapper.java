@@ -14,7 +14,6 @@ public class LabelWrapper {
     public LabelWrapper(int id, String textValue){
         this.id = id;
         this.textValue = textValue;
-        Log.d("LABEL SKA INTE 0 ÄR : ", id + " ");
     }
 
     public int getId() {
