@@ -27,19 +27,23 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
     private List<LabelWrapper> labels;
     private int defaultID = -1;
     private LayoutInflater mLayoutInflater;
+    private int activityID;
+    private Context context;
 
-    public LabelAdapter(Context context, int resource, List<LabelWrapper> labels, int defaultID) {
+    public LabelAdapter(Context context, int resource, List<LabelWrapper> labels, int defaultID, int acticityID) {
         super(context, resource, labels);
         Log.d("DEAFULT ID", defaultID + "");
         mResourceId = resource;
         this.labels = labels;
+        this.context = context;
         this.defaultID = defaultID;
+        this.activityID = acticityID;
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @NonNull
     @Override
-    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, final View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         ViewHolder holder;
         if(view == null){
@@ -68,6 +72,10 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
                 }
                 mSelectedPosition = position;
                 mSelectedRB = (RadioButton)v;
+                defaultID = labels.get(position).getId();
+                Log.d("nu",""+defaultID);
+                LifeLogActivity l = (LifeLogActivity)context;
+                l.setLabel(activityID, labels.get(position).getId() );
             }
         });
 

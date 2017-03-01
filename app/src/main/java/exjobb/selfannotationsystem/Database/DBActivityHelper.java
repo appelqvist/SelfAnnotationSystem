@@ -11,8 +11,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.util.StringBuilderPrinter;
+import android.widget.Adapter;
 
 import exjobb.selfannotationsystem.ActivityWrapper;
+import exjobb.selfannotationsystem.LabelAdapter;
 
 public class DBActivityHelper extends SQLiteOpenHelper {
 
@@ -83,6 +85,7 @@ public class DBActivityHelper extends SQLiteOpenHelper {
 
             } while (allRows.moveToNext());
         }
+        ddb.close();
         return tableString;
     }
 
@@ -110,7 +113,7 @@ public class DBActivityHelper extends SQLiteOpenHelper {
     }
 
     public ActivityWrapper[] getActivitesByDate(String date){
-        int steps, distance, dateIndex, timeIndex, type, labelIndex;
+        int steps, distance, dateIndex, timeIndex, type, labelIndex, idIndex;
         SQLiteDatabase db = getReadableDatabase();
         String query = " SELECT * FROM " + TABLE_ACTIVITES+ " WHERE "+COLUMN_DATE+"='"+ date +"'";
         Cursor c = db.rawQuery(query, null);
@@ -121,14 +124,25 @@ public class DBActivityHelper extends SQLiteOpenHelper {
         timeIndex = c.getColumnIndex(COLUMN_TIME);
         type = c.getColumnIndex(COLUMN_TYPE);
         labelIndex = c.getColumnIndex(COLUMN_LABEL);
+        idIndex = c.getColumnIndex(COLUMN_ID);
 
         for(int i=0; i< activities.length; i++){
             c.moveToPosition(i);
             activities[i] = new ActivityWrapper(c.getString(dateIndex),c.getString(timeIndex),
-                    c.getInt(steps), c.getInt(distance), c.getString(type), c.getInt(labelIndex));
+                    c.getInt(steps), c.getInt(distance), c.getString(type), c.getInt(labelIndex),
+                    c.getInt(idIndex));
         }
         db.close();
         return activities;
+    }
+
+    public void setLabelToActivity(int actID, int labelID) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = " UPDATE " + TABLE_ACTIVITES + " SET " + COLUMN_LABEL + " = " + labelID + " WHERE " +
+                COLUMN_ID + " = " + actID;
+        //db.rawQuery(query, null);
+        db.execSQL(query);
+        db.close();
     }
 //
 //    public ActivityWrapper[] outcomes(){

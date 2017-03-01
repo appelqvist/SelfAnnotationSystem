@@ -101,8 +101,7 @@ public class LifeLogActivity extends android.app.Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 activityWrapper = (ActivityWrapper) parent.getItemAtPosition(position);
-                Log.d("LABELID LIFELOG", "" + activityWrapper.getLabelID()+ activityWrapper.getActivityType() );
-                inflatePopup(activityWrapper.getActivityType(), activityWrapper.getLabelID()); // Skickar med type så vi kan ge rätt activityWrapper till rätt aktivitet
+                inflatePopup(activityWrapper.getActivityType(), activityWrapper.getLabelID(), activityWrapper.getActivityID()); // Skickar med type så vi kan ge rätt activityWrapper till rätt aktivitet
             }
         });
 
@@ -116,12 +115,12 @@ public class LifeLogActivity extends android.app.Activity {
         });
     }
 
-    private void inflatePopup(String type, int id) {
+    private void inflatePopup(String type, int labelID, int activityID) {
         View popupView = getLayoutInflater().inflate(R.layout.label_options_view,null);
         pw = new PopupWindow(popupView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pw.setAnimationStyle(android.R.style.Animation_Dialog);
         pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-        labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), id);
+        labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), labelID, activityID);
         labelListView = (ListView) popupView.findViewById(R.id.popup_listview);
         labelListView.setAdapter(labelAdapter);
     }
@@ -336,9 +335,6 @@ public class LifeLogActivity extends android.app.Activity {
 
                     activityActivityWrapper = new ActivityWrapper(theDate, theTime, steps, (int)distance, type, 1);
                     dbActivityHelper.addActivity(activityActivityWrapper);
-                    for(ActivityWrapper act : dbActivityHelper.printDB()) {
-                        Log.d("FRÅN DATABAS", act.getDate() + " " + act.getActivityType() + " " + act.getDistance());
-                    }
                 }
             }
         }
@@ -350,10 +346,6 @@ public class LifeLogActivity extends android.app.Activity {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c.getTime());
 
-        Log.d("DATE", formattedDate);
-        Log.d("DATABASDATE", dbActivityHelper.printDB()[0].getDate().toString());
-        Log.d(" LOG FROM DATABASEDATE" , Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate)).toString());
-
         ActivityWrapper[] ls = dbActivityHelper.getActivitesByDate(formattedDate);
         for(int i = 0; i < ls.length; i++){
             Log.d("HÄR " + String.valueOf(i), String.valueOf(ls[i].getLabelID()));
@@ -361,7 +353,9 @@ public class LifeLogActivity extends android.app.Activity {
         return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
     }
 
-    public void setLabel(String label){
-        
+    public void setLabel(int activityID, int labelID){
+        Log.d("VÄRDEN", activityID + " : " + labelID);
+        dbActivityHelper.setLabelToActivity(activityID, labelID);
+        Log.d("DB print" , dbActivityHelper.getTableAsString());
     }
 }
