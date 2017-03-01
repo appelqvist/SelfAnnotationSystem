@@ -117,7 +117,6 @@ public class LifeLogActivity extends android.app.Activity {
     }
 
     private void inflatePopup(String type, int id) {
-        Log.d("LOG", "POPUP");
         View popupView = getLayoutInflater().inflate(R.layout.label_options_view,null);
         pw = new PopupWindow(popupView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pw.setAnimationStyle(android.R.style.Animation_Dialog);
@@ -360,5 +359,9 @@ public class LifeLogActivity extends android.app.Activity {
             Log.d("HÄR " + String.valueOf(i), String.valueOf(ls[i].getLabelID()));
         }
         return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
+    }
+
+    public void setLabel(String label){
+        
     }
 }

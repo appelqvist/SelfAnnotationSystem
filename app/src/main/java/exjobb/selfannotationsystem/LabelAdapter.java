@@ -30,6 +30,7 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
 
     public LabelAdapter(Context context, int resource, List<LabelWrapper> labels, int defaultID) {
         super(context, resource, labels);
+        Log.d("DEAFULT ID", defaultID + "");
         mResourceId = resource;
         this.labels = labels;
         this.defaultID = defaultID;
@@ -51,11 +52,11 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
             holder = (ViewHolder)view.getTag();
         }
         Log.d("DEAFULT", defaultID + "");
-        Log.d("DEFAULT LABEL",labels.get(position).getId() + " : "+ position);
+        Log.d("DEFAULT LABEL",(labels.get(position).getId() - 1) + " : "+ position);
 
         if(labels.get(position).getId() == defaultID){
-            holder.radioBtn.setChecked(true);
-            Log.d("DEAFULT I IF", defaultID + "");
+            mSelectedPosition = position; // VÅR RAD
+            mSelectedRB = holder.radioBtn;
         }
 
         holder.radioBtn.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +64,7 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
             public void onClick(View v) {
                 if(position != mSelectedPosition && mSelectedRB != null){
                     mSelectedRB.setChecked(false);
+                    Log.d("POSITION i dubbel if", position + "");
                 }
                 mSelectedPosition = position;
                 mSelectedRB = (RadioButton)v;
