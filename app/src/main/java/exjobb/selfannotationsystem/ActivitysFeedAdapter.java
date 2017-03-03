@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -19,10 +21,15 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
 
     private Context context;
     private List<ActivityWrapper> feeds;
+    private LabelWrapper[] labels;
 
-    public ActivitysFeedAdapter(Context context, int textViewResource, List<ActivityWrapper> objects) {
+    public ActivitysFeedAdapter(Context context, int textViewResource, List<ActivityWrapper> objects, List<LabelWrapper> labels) {
         super(context, textViewResource, objects);
         this.feeds = objects;
+        this.labels = new LabelWrapper[labels.size()+1];
+        for(int i = 0; i < labels.size(); i++){
+            this.labels[i + 1] = labels.get(i);
+        }
         this.context = context;
     }
 
@@ -35,6 +42,7 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
         TextView activityValueTextView = (TextView) rowView.findViewById(R.id.tvActivityValue);
         TextView activityTypeTextView = (TextView) rowView.findViewById(R.id.tvActivityType);
         TextView timeTextView = (TextView) rowView.findViewById(R.id.tvTime);
+        TextView labelTextView = (TextView) rowView.findViewById(R.id.tvLabel);
         ImageView imgView = (ImageView) rowView.findViewById(R.id.imageViewActivity);
 
         if(feeds.get(position).getActivityType().equals("walk")) {
@@ -44,6 +52,8 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
             activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
             imgView.setImageResource(R.mipmap.walk);
             timeTextView.setText("Klockan " + feeds.get(position).getTime());
+            labelTextView.setText(this.labels[feeds.get(position).getLabelID()].getTextValue());
+
         }
         else if(feeds.get(position).getActivityType().equals("run")) {
             activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
@@ -52,6 +62,7 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
             activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
             imgView.setImageResource(R.mipmap.runner);
             timeTextView.setText("Klockan " + feeds.get(position).getTime());
+    //        labelTextView.setText(feeds.get(position));
         }
         else if(feeds.get(position).getActivityType().equals("bicycle")) {
             activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
@@ -59,6 +70,7 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
             activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
             imgView.setImageResource(R.mipmap.cycling);
             timeTextView.setText("Klockan " + feeds.get(position).getTime());
+    //        labelTextView.setText(feeds.get(position));
         }
 
         return rowView;

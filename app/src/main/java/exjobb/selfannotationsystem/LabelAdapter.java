@@ -77,7 +77,7 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
 
                 LifeLogActivity l = (LifeLogActivity)context;
                 defaultID = labels.get(position).getId();
-                l.setLabel(activityID, labels.get(position).getId(),defaultID);
+                l.setLabel(activityID, labels.get(position).getId());
 
                 Log.d("NYA DEFAULT", ""+defaultID+", klickade på position: "+labels.get(position).getTextValue());
             }

@@ -73,7 +73,7 @@ public class LifeLogActivity extends android.app.Activity {
     private void viewLayout() {
         getPhysicalActivites();
         setContentView(R.layout.label_view);
-        adapter = new ActivitysFeedAdapter(this, R.layout.row_view, getActivites());
+        adapter = new ActivitysFeedAdapter(this, R.layout.row_view, getActivites(), dbLabelHelper.getAllLabels());
         feedListView = (ListView) findViewById(R.id.feed_list_view);
         feedListView.setAdapter(adapter);
 
@@ -338,7 +338,7 @@ public class LifeLogActivity extends android.app.Activity {
     }
 
     public void addAndSetLabel(int activityID, int labelID){
-        dbLabelHelper.addLabel();
+      //  dbLabelHelper.addLabel();
     }
 
     public void setLabel(int activityID, int labelID) {

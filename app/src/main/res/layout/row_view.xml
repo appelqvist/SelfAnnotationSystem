@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingBottom="10dip"
     android:paddingStart="10dip"
@@ -39,6 +37,15 @@
             android:id="@+id/tvTime"
             android:layout_marginStart="190dp"
             android:layout_alignTop="@+id/tvActivityType" />
+
+        <TextView
+            android:text="Transportsträcka"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLabel"
+            android:layout_marginStart="190dp"
+            android:layout_below="@id/tvTime"/>
 
     <ImageView
         android:layout_width="wrap_content"
