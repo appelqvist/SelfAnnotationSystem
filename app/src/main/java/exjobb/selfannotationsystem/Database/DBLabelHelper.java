@@ -38,7 +38,7 @@ public class DBLabelHelper extends SQLiteOpenHelper {
                 "PRIMARY KEY ("+COLUMN_ID+")"+
                 ");";
         db.execSQL(query);
-        String[] defaults = {"No label","Transportsträcka", "Stressad aktivitet", "Omedveten aktivitet", "Jobbaktivitet", "Skolgympa"};
+        String[] defaults = {"Saknar Etikett","Transportsträcka", "Omedveten aktivitet", "Jobbaktivitet", "Skolaktivitet", "Träning", };
 
         for(String s : defaults) {
             addLabel(db, s);
@@ -84,10 +84,6 @@ public class DBLabelHelper extends SQLiteOpenHelper {
         for(int i=0; i< c.getCount(); i++){
             c.moveToPosition(i);
             labels.add(new LabelWrapper(c.getInt(labelIndex),c.getString(labelValue)) );
-        }
-
-        for(int i = 0; i < labels.size(); i++){
-            Log.d(String.valueOf(i), labels.get(i).getId() + " : " + labels.get(i).getTextValue());
         }
         return labels;
     }

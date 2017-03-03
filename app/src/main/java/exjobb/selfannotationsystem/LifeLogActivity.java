@@ -182,7 +182,6 @@ public class LifeLogActivity extends android.app.Activity {
                     @Override
                     public void onCompleted(Exception e, Response<JsonObject> result) {
                         if (e != null) {
-                            Log.d("KALAS", "BRA?!");
                         } else {
                             if (result.getHeaders().code() == 200) {
                                 String accessToken = result.getResult().get("access_token").getAsString();
@@ -291,12 +290,10 @@ public class LifeLogActivity extends android.app.Activity {
                 adapter.clear();
             }
             JsonArray jsonPhysical = obj.getAsJsonArray("result");
-            Log.d("THE CALL: ", "" + jsonPhysical.toString());
             for (JsonElement i : jsonPhysical) {
                 JsonObject newObject = (JsonObject) i;
                 String type = newObject.get("subtype").getAsString();
                 if (!type.equals("other")) {
-                    Log.d("bicycle", type);
                     String date = newObject.get("startTime").getAsString();
                     String theDate = date.substring(0, 10);
                     String theTime = date.substring(11, 19);

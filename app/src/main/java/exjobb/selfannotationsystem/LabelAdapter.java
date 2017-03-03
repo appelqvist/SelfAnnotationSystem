@@ -32,7 +32,6 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
 
     public LabelAdapter(Context context, int resource, List<LabelWrapper> labels, int defaultID, int acticityID) {
         super(context, resource, labels);
-        Log.d("DEAFULT ID", defaultID + "");
         mResourceId = resource;
         this.labels = labels;
         this.context = context;
@@ -64,26 +63,16 @@ public class LabelAdapter  extends ArrayAdapter<LabelWrapper> {
         holder.radioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("DEFAULT INNAN CLICK", ""+defaultID);
                 if(position != mSelectedPosition && mSelectedRB != null){
                     mSelectedRB.setChecked(false);
                 }
 
                 mSelectedPosition = position;
                 mSelectedRB = (RadioButton)v;
-
-                ((RadioButton) v).setText(((RadioButton) v).getText()+"/");
-
-
                 LifeLogActivity l = (LifeLogActivity)context;
                 defaultID = labels.get(position).getId();
                 l.setLabel(activityID, labels.get(position).getId());
-
-                Log.d("NYA DEFAULT", ""+defaultID+", klickade på position: "+labels.get(position).getTextValue());
             }
-
-
-
         });
 
         if(mSelectedPosition != position){
