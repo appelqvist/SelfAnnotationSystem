@@ -52,10 +52,9 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
             imgView.setImageResource(R.mipmap.runner);
             timeTextView.setText("Klockan " + feeds.get(position).getTime());
         }
-        else if(feeds.get(position).getActivityType().equals("cycle")) {
+        else if(feeds.get(position).getActivityType().equals("bicycle")) {
             activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
-            activityValueTextView.setText(String.valueOf("Steg: " + feeds.get(position).getSteps() +"\nDist: " +
-                    (double)feeds.get(position).getDistance() /1000 + " km"));
+            activityValueTextView.setText("Steg: n/a\nDist: n/a");
             activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
             imgView.setImageResource(R.mipmap.cycling);
             timeTextView.setText("Klockan " + feeds.get(position).getTime());

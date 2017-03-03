@@ -57,18 +57,18 @@ public class LifeLogActivity extends android.app.Activity {
     private PopupWindow pw;
     private String value;
 
-    private DBActivityHelper dbActivityHelper = new DBActivityHelper(this, null,null,1);
-    private DBLabelHelper dbLabelHelper = new DBLabelHelper(this, null,null,1);
+    private DBActivityHelper dbActivityHelper = new DBActivityHelper(this, null, null, 1);
+    private DBLabelHelper dbLabelHelper = new DBLabelHelper(this, null, null, 1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String token = getSharedPreferences(PREFS_NAME, 0).getString(PREFS_KEY_ACCESS_TOKEN, "");
 
-        if(token.equals("")) {
+        if (token.equals("")) {
             setContentView(R.layout.button);
-            final Button login = (Button)findViewById(R.id.button);
-            final Button steps = (Button)findViewById(R.id.getsteps);
+            final Button login = (Button) findViewById(R.id.button);
+            final Button steps = (Button) findViewById(R.id.getsteps);
 
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,7 +116,7 @@ public class LifeLogActivity extends android.app.Activity {
     }
 
     private void inflatePopup(String type, int labelID, int activityID) {
-        View popupView = getLayoutInflater().inflate(R.layout.label_options_view,null);
+        View popupView = getLayoutInflater().inflate(R.layout.label_options_view, null);
         pw = new PopupWindow(popupView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pw.setAnimationStyle(android.R.style.Animation_Dialog);
         pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
@@ -125,18 +125,17 @@ public class LifeLogActivity extends android.app.Activity {
         labelListView.setAdapter(labelAdapter);
     }
 
-    private final Runnable refreshing = new Runnable(){
-        public void run(){
+    private final Runnable refreshing = new Runnable() {
+        public void run() {
             try {
-                if(isRefreshing()){
+                if (isRefreshing()) {
                     handler.postDelayed(this, 1000);
-                }else{
+                } else {
                     swipeRefreshLayout.setRefreshing(false);
                     adapter.notifyDataSetChanged();
                     getPhysicalActivites();
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -146,12 +145,12 @@ public class LifeLogActivity extends android.app.Activity {
         return refresh;
     }
 
-    private void refreshing(boolean refreshing){
+    private void refreshing(boolean refreshing) {
         this.refresh = refreshing;
     }
 
 
-    public void login(View v){
+    public void login(View v) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.setClass(this, WebViewActivity.class);
@@ -160,8 +159,8 @@ public class LifeLogActivity extends android.app.Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == AUTHENTICATION_REQUEST) {
-            if (resultCode == RESULT_OK){
+        if (requestCode == AUTHENTICATION_REQUEST) {
+            if (resultCode == RESULT_OK) {
                 String code = data.getStringExtra("CODE");
                 getAndStoreAccessToken(code);
             }
@@ -207,7 +206,7 @@ public class LifeLogActivity extends android.app.Activity {
 
     }
 
-    public void refreshToken(){
+    public void refreshToken() {
         Resources resources = getResources();
         final String CLIENT_ID = Credentials.CLIENT_ID;
         final String CLIENT_SECRET = Credentials.SECRET;
@@ -231,8 +230,7 @@ public class LifeLogActivity extends android.app.Activity {
                     public void onCompleted(Exception e, Response<JsonObject> result) {
                         if (e != null) {
                             Log.e("refreshToken()", e.toString());
-                        }
-                        else {
+                        } else {
                             if (result.getHeaders().code() == 200) {
                                 String accessToken = result.getResult().get("access_token").getAsString();
                                 String refreshToken = result.getResult().get("refresh_token").getAsString();
@@ -240,8 +238,7 @@ public class LifeLogActivity extends android.app.Activity {
                                 editor.putString(PREFS_KEY_ACCESS_TOKEN, accessToken);
                                 editor.putString(PREFS_KEY_REFRESH_TOKEN, refreshToken);
                                 editor.commit();
-                            }
-                            else {
+                            } else {
                                 Log.e("refreshToken()", "CODE != 200");
                             }
                         }
@@ -251,9 +248,9 @@ public class LifeLogActivity extends android.app.Activity {
     }
 
 
-    private JsonObject getHTTPResponseSync(String url){
+    private JsonObject getHTTPResponseSync(String url) {
         String accessToken = getSharedPreferences(PREFS_NAME, 0).getString(PREFS_KEY_ACCESS_TOKEN, "");
-        if(!accessToken.equals("")) {
+        if (!accessToken.equals("")) {
             JsonObject obj = null;
             while (obj == null) {
                 try {
@@ -284,56 +281,58 @@ public class LifeLogActivity extends android.app.Activity {
     }
 
 
-    public void getPhysicalActivites(){
+    public void getPhysicalActivites() {
         ActivityWrapper activityActivityWrapper; // sätt till vilken aktivitet
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c.getTime());
 
-        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL+ "/activities?start_time=" + formattedDate + "T00:00:00.000Z&end_time=" + formattedDate + "T23:59:59.000Z&type=physical");
-        if(obj != null){
-            if(adapter != null){
+        JsonObject obj = getHTTPResponseSync(ACTIVITIES_URL + "/activities?start_time=" + formattedDate + "T00:00:00.000Z&end_time=" + formattedDate + "T23:59:59.000Z&type=physical");
+        if (obj != null) {
+            if (adapter != null) {
                 adapter.clear();
             }
             JsonArray jsonPhysical = obj.getAsJsonArray("result");
-            for(JsonElement i : jsonPhysical){
-
-                JsonObject newObject = (JsonObject)i;
-                String type =  newObject.get("subtype").getAsString();
-                if(!type.equals("other")) {
+            Log.d("THE CALL: ", "" + jsonPhysical.toString());
+            for (JsonElement i : jsonPhysical) {
+                JsonObject newObject = (JsonObject) i;
+                String type = newObject.get("subtype").getAsString();
+                if (!type.equals("other")) {
+                    Log.d("bicycle", type);
                     String date = newObject.get("startTime").getAsString();
-                    String theDate = date.substring(0,10);
-                    String theTime = date.substring(11,19);
+                    String theDate = date.substring(0, 10);
+                    String theTime = date.substring(11, 19);
                     String outstring = theDate + "-" + theTime;
 
                     String temp = "";
                     boolean indb = false;
-                    for(ActivityWrapper wrapper : dbActivityHelper.printDB()){
-                        temp = wrapper.getDate() + "-" +wrapper.getTime();
-                        if(temp.equals(outstring)){
+                    for (ActivityWrapper wrapper : dbActivityHelper.printDB()) {
+                        temp = wrapper.getDate() + "-" + wrapper.getTime();
+                        if (temp.equals(outstring)) {
                             indb = true;
                             break;
                         }
                     }
 
-                    if(indb){
+                    if (indb) {
                         continue;
                     }
 
-                    JsonArray jsonStepsArray = newObject.getAsJsonObject("details").getAsJsonArray("steps");
                     int steps = 0;
-                    for (JsonElement o : jsonStepsArray) {
-                        steps += o.getAsInt();
-                    }
-                    JsonArray jsonDistanceArray  = newObject.getAsJsonObject("details").getAsJsonArray("distance");
                     float distance = 0;
-                    for(JsonElement dist : jsonDistanceArray){
-                        distance += dist.getAsFloat();
+                    if (!type.equals("bicycle")) {
+                        Log.d(type, "Jag ska inte vara cyckelaksdkas");
+                        JsonArray jsonStepsArray = newObject.getAsJsonObject("details").getAsJsonArray("steps");
+                        for (JsonElement o : jsonStepsArray) {
+                            steps += o.getAsInt();
+                        }
+                        JsonArray jsonDistanceArray = newObject.getAsJsonObject("details").getAsJsonArray("distance");
+                        for (JsonElement dist : jsonDistanceArray) {
+                            distance += dist.getAsFloat();
+                        }
+                        Log.d("DISTANCE", "" + distance);
                     }
-                    Log.d("DISTANCE", "" + distance);
-
-
-                    activityActivityWrapper = new ActivityWrapper(theDate, theTime, steps, (int)distance, type, 1);
+                    activityActivityWrapper = new ActivityWrapper(theDate, theTime, steps, (int) distance, type, 1);
                     dbActivityHelper.addActivity(activityActivityWrapper);
                 }
             }
@@ -347,17 +346,17 @@ public class LifeLogActivity extends android.app.Activity {
         String formattedDate = df.format(c.getTime());
 
         ActivityWrapper[] ls = dbActivityHelper.getActivitesByDate(formattedDate);
-        for(int i = 0; i < ls.length; i++){
+        for (int i = 0; i < ls.length; i++) {
             Log.d("HÄR " + String.valueOf(i), String.valueOf(ls[i].getLabelID()));
         }
         return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
     }
 
-    public void setLabel(int activityID, int labelID, int defaultID){
-        Log.d("VÄRDEN", activityID + " : " + labelID+ " : "+defaultID);
+    public void setLabel(int activityID, int labelID, int defaultID) {
+        Log.d("VÄRDEN", activityID + " : " + labelID + " : " + defaultID);
         dbActivityHelper.setLabelToActivity(activityID, labelID);
         labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), defaultID, activityID);
-       //labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), labelID, activityID);
+        //labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), labelID, activityID);
         //Log.d("DB print" , dbActivityHelper.getTableAsString());
     }
 }
