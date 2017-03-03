@@ -9,6 +9,7 @@
     android:paddingBottom="10dip"
     android:paddingStart="10dip"
     android:paddingTop="10dip"
+    android:background="@mipmap/rowimg"
     android:id="@+id/row_layout">
 
 

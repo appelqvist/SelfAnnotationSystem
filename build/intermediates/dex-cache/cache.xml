@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="cf887475b48e5272dfb207cce652a7bb2acd7b73">
+        sha1="5cc322c4036318fa26fc49078fcf3676b7a4dc78">
         <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9c74995d25c907148d9400d1ad0b3acb99183032/classes.dex" />
     </item>
     <item
@@ -27,6 +27,15 @@
         revision="23.0.3"
         sha1="8c3b39c2d27b12faffc3be72f9d2221231e82a73">
         <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/2/classes_ion_a3392f9ff27ef0b527ebfd1a159fea4ecb3ea601/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ca3c7aa31e2726a400a6e552b93cb9f63c9a1e6d">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.1.0_520cc03558d76168b4b83c84747096c2bd9dd02b/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -70,8 +79,26 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="b83c01509a6ffeef05a8f7d0c2a936facf3f6670">
+        sha1="320bd5cfc402cfbc4295ea10137ff2bf9a805025">
         <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_9cbae26ebddc41cee9396e258af66e7f3d123c28/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="aee64634871d88a419d59eb743c1258a60f19700">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.0_a60403743300b2c6e69cd12955cc426ea6741795/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/exploded-aar/com.android.support/gridlayout-v7/25.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="c83fbde55c05bc186002d7ce3570d619c3d6ee1f">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-gridlayout-v7-25.1.0_14712174b5a6ddf14c21f98eefaefc6397c4c3a0/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -111,12 +138,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/Marten/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.4.0/support-annotations-23.4.0.jar"
+        jar="/Users/Marten/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.1.0/support-annotations-25.1.0.jar"
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
-        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.4.0_ebcce85c32dee7bf4dfc75546cfe7a2582e35c9d/classes.dex" />
+        sha1="64cb6b229a8bdfd907bc8dd46839a0053e4c018d">
+        <dex dex="/Users/Marten/Desktop/Examensjob/SelfAnnotationSystem/SelfAnnotationSystem/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.1.0_4e3dbc8b8b1100584d79cf5e8d730ea9594dfe9f/classes.dex" />
     </item>
     <item
         is-multidex="true"
