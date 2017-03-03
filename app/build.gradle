@@ -28,4 +28,5 @@ dependencies {
     compile files('libs/android-support-v4.jar')
     compile files('libs/classes_ion.jar')
     compile files('libs/classes_async.jar')
+    compile 'com.android.support:gridlayout-v7:25.1.0'
 }
