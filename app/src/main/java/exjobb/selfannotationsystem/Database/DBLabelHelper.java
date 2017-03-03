@@ -45,7 +45,7 @@ public class DBLabelHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addLabel(SQLiteDatabase db, String text){
+    public int addLabel(String value){
         ContentValues values = new ContentValues();
         values.put(COLUMN_VALUE, text);
         db.insert(TABLE_LABELS, null, values);

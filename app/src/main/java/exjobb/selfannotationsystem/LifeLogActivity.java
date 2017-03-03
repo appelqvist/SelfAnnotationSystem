@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import com.google.gson.JsonArray;
@@ -108,6 +109,16 @@ public class LifeLogActivity extends android.app.Activity {
         pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
         labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), labelID, activityID);
         labelListView = (ListView) popupView.findViewById(R.id.popup_listview);
+
+        Button btn = (Button)popupView.findViewById(R.id.button2);
+        final EditText editText = (EditText)popupView.findViewById(R.id.editText);
+        btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.d("hej", editText.getText().toString());
+            }
+        });
+
         labelListView.setAdapter(labelAdapter);
     }
 
@@ -326,7 +337,11 @@ public class LifeLogActivity extends android.app.Activity {
         return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
     }
 
-    public void setLabel(int activityID, int labelID, int defaultID) {
+    public void addAndSetLabel(int activityID, int labelID){
+        dbLabelHelper.addLabel();
+    }
+
+    public void setLabel(int activityID, int labelID) {
         dbActivityHelper.setLabelToActivity(activityID, labelID);
     }
 }
