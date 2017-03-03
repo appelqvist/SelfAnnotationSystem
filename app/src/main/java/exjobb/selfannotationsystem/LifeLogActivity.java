@@ -1,34 +1,25 @@
 package exjobb.selfannotationsystem;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
-
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -48,14 +39,12 @@ public class LifeLogActivity extends android.app.Activity {
 
     private ActivitysFeedAdapter adapter;
     private LabelAdapter labelAdapter;
-    private ActivityWrapper activityWrapper;
     private ListView feedListView;
     private ListView labelListView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Handler handler = new Handler();
     private boolean refresh = false;
     private PopupWindow pw;
-    private String value;
 
     private DBActivityHelper dbActivityHelper = new DBActivityHelper(this, null, null, 1);
     private DBLabelHelper dbLabelHelper = new DBLabelHelper(this, null, null, 1);
@@ -68,21 +57,11 @@ public class LifeLogActivity extends android.app.Activity {
         if (token.equals("")) {
             setContentView(R.layout.button);
             final Button login = (Button) findViewById(R.id.button);
-            final Button steps = (Button) findViewById(R.id.getsteps);
 
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     login(v);
-                }
-            });
-
-            steps.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context = getApplicationContext();
-                    Toast toast = Toast.makeText(context, "No info yet", Toast.LENGTH_LONG);
-                    toast.show();
                 }
             });
         } else {
@@ -124,7 +103,6 @@ public class LifeLogActivity extends android.app.Activity {
 
     private void inflatePopup(int labelID, int activityID) {
         View popupView = getLayoutInflater().inflate(R.layout.label_options_view, null);
-        Log.d("Hur många gånger", "20 nio gågner? Default ska bli:" +labelID);
         pw = new PopupWindow(popupView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pw.setAnimationStyle(android.R.style.Animation_Dialog);
         pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
@@ -152,11 +130,6 @@ public class LifeLogActivity extends android.app.Activity {
     private boolean isRefreshing() {
         return refresh;
     }
-
-    private void refreshing(boolean refreshing) {
-        this.refresh = refreshing;
-    }
-
 
     public void login(View v) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -329,7 +302,6 @@ public class LifeLogActivity extends android.app.Activity {
                     int steps = 0;
                     float distance = 0;
                     if (!type.equals("bicycle")) {
-                        Log.d(type, "Jag ska inte vara cyckelaksdkas");
                         JsonArray jsonStepsArray = newObject.getAsJsonObject("details").getAsJsonArray("steps");
                         for (JsonElement o : jsonStepsArray) {
                             steps += o.getAsInt();
@@ -338,7 +310,6 @@ public class LifeLogActivity extends android.app.Activity {
                         for (JsonElement dist : jsonDistanceArray) {
                             distance += dist.getAsFloat();
                         }
-                        Log.d("DISTANCE", "" + distance);
                     }
                     activityActivityWrapper = new ActivityWrapper(theDate, theTime, steps, (int) distance, type, 1);
                     dbActivityHelper.addActivity(activityActivityWrapper);
@@ -352,20 +323,10 @@ public class LifeLogActivity extends android.app.Activity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c.getTime());
-
-        ActivityWrapper[] ls = dbActivityHelper.getActivitesByDate(formattedDate);
-        for (int i = 0; i < ls.length; i++) {
-            Log.d("HÄR " + String.valueOf(i), String.valueOf(ls[i].getLabelID()));
-        }
         return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
     }
 
     public void setLabel(int activityID, int labelID, int defaultID) {
-        Log.d("VÄRDEN", activityID + " : " + labelID + " : " + defaultID);
         dbActivityHelper.setLabelToActivity(activityID, labelID);
-
-
-        //labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), labelID, activityID);
-        //Log.d("DB print" , dbActivityHelper.getTableAsString());
     }
 }

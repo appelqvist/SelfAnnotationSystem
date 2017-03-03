@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@mipmap/sony"
+    android:background="@mipmap/homepage"
     tools:context="exjobb.selfannotationsystem.MainActivity">
 
 
@@ -17,14 +17,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="185dp"
-        android:id="@+id/button"/>
+        android:id="@+id/button"
+        android:background="@android:color/holo_red_light"
+        android:padding="20dp" />
 
-    <Button
-        android:text="Info"
-        android:layout_width="match_parent"
+    <TextView
+        android:text="Anotify"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:id="@+id/getsteps" />
+        android:textSize="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:id="@+id/textViewWelcome" />
+
+    <TextView
+        android:text="Med denna application kan du annotera dina Sony Lifelog aktiviteter, för att skapa en bättre förståelse för dina dagar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewWelcome"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:id="@+id/textView4" />
 
 </RelativeLayout>
