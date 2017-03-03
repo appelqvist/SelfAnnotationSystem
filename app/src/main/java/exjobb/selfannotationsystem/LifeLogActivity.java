@@ -99,9 +99,16 @@ public class LifeLogActivity extends android.app.Activity {
 
         feedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                activityWrapper = (ActivityWrapper) parent.getItemAtPosition(position);
-                inflatePopup(activityWrapper.getActivityType(), activityWrapper.getLabelID(), activityWrapper.getActivityID()); // Skickar med type så vi kan ge rätt activityWrapper till rätt aktivitet
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                ActivityWrapper activity = (ActivityWrapper) parent.getItemAtPosition(position);
+                int Aid = activity.getActivityID();
+                List<ActivityWrapper> a = getActivites();
+                for(int i = 0; i < a.size(); i++){
+                    if(a.get(i).getActivityID() == Aid){ //Inte allt för snyggt..
+                        activity = a.get(i);
+                    }
+                }
+                inflatePopup(activity.getLabelID(), activity.getActivityID());
             }
         });
 
@@ -115,8 +122,9 @@ public class LifeLogActivity extends android.app.Activity {
         });
     }
 
-    private void inflatePopup(String type, int labelID, int activityID) {
+    private void inflatePopup(int labelID, int activityID) {
         View popupView = getLayoutInflater().inflate(R.layout.label_options_view, null);
+        Log.d("Hur många gånger", "20 nio gågner? Default ska bli:" +labelID);
         pw = new PopupWindow(popupView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pw.setAnimationStyle(android.R.style.Animation_Dialog);
         pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
@@ -355,7 +363,8 @@ public class LifeLogActivity extends android.app.Activity {
     public void setLabel(int activityID, int labelID, int defaultID) {
         Log.d("VÄRDEN", activityID + " : " + labelID + " : " + defaultID);
         dbActivityHelper.setLabelToActivity(activityID, labelID);
-        labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), defaultID, activityID);
+
+
         //labelAdapter = new LabelAdapter(this, R.layout.radio_row, dbLabelHelper.getAllLabels(), labelID, activityID);
         //Log.d("DB print" , dbActivityHelper.getTableAsString());
     }
