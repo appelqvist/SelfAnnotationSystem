@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:text="Annotate your data"
+        android:text="Sätt etikett på din aktivitet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -29,7 +29,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:hint="Hungry"
+        android:hint="Promenad"
         android:maxLength="20"
         android:ems="10"
         android:id="@+id/editText"
@@ -39,7 +39,7 @@
         android:layout_toStartOf="@+id/button2" />
 
     <TextView
-        android:text="Add your own label"
+        android:text="Lägg till etikett"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
@@ -49,7 +49,7 @@
         android:layout_marginBottom="10dp" />
 
     <Button
-        android:text="Add"
+        android:text="Lägg till"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:id="@+id/button2"
