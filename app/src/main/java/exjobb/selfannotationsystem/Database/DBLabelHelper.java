@@ -57,6 +57,22 @@ public class DBLabelHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public int addNewLabel(String value) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = " INSERT INTO "+ TABLE_LABELS +" ("+COLUMN_VALUE+") VALUES ('"+value+"');";
+        db.execSQL(query);
+
+        query = "SELECT * FROM "+TABLE_LABELS+" ORDER BY "+COLUMN_ID+" DESC LIMIT 1";
+        Cursor c = db.rawQuery(query, null);
+        int indexID, id;
+        indexID = c.getColumnIndex(COLUMN_ID);
+        c.moveToPosition(0);
+        id = c.getInt(indexID);
+        db.close();
+
+        return id;
+    }
+
     public List<LabelWrapper> getAllLabels() {
         int labelIndex, labelValue;
         SQLiteDatabase db = getReadableDatabase();
@@ -75,4 +91,5 @@ public class DBLabelHelper extends SQLiteOpenHelper {
         }
         return labels;
     }
+
 }

@@ -33,6 +33,11 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
         this.context = context;
     }
 
+    public void updateData(List<ActivityWrapper> feeds, LabelWrapper[] labels){
+        this.feeds = feeds;
+        this.labels = labels;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
@@ -62,7 +67,7 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
             activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
             imgView.setImageResource(R.mipmap.runner);
             timeTextView.setText("Klockan " + feeds.get(position).getTime());
-    //        labelTextView.setText(feeds.get(position));
+            labelTextView.setText(this.labels[feeds.get(position).getLabelID()].getTextValue());
         }
         else if(feeds.get(position).getActivityType().equals("bicycle")) {
             activityTypeTextView.setText(feeds.get(position).getActivityType().toUpperCase());
@@ -70,7 +75,7 @@ public class ActivitysFeedAdapter extends ArrayAdapter<ActivityWrapper> {
             activityTypeTextView.setTextColor(getContext().getResources().getColor(R.color.colortwitter));
             imgView.setImageResource(R.mipmap.cycling);
             timeTextView.setText("Klockan " + feeds.get(position).getTime());
-    //        labelTextView.setText(feeds.get(position));
+            labelTextView.setText(this.labels[feeds.get(position).getLabelID()].getTextValue());
         }
 
         return rowView;

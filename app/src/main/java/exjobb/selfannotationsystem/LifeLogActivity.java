@@ -102,7 +102,7 @@ public class LifeLogActivity extends android.app.Activity {
         });
     }
 
-    private void inflatePopup(int labelID, int activityID) {
+    private void inflatePopup(final int labelID, final int activityID) {
         View popupView = getLayoutInflater().inflate(R.layout.label_options_view, null);
         pw = new PopupWindow(popupView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pw.setAnimationStyle(android.R.style.Animation_Dialog);
@@ -115,7 +115,13 @@ public class LifeLogActivity extends android.app.Activity {
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Log.d("hej", editText.getText().toString());
+                if(editText.getText().toString().length() > 0) {
+                    String str = editText.getText().toString();
+                    String f = ""+str.charAt(0);
+                    f = f.toUpperCase();
+                    str = f+str.substring(1);
+                    addAndSetLabel(str, activityID);
+                }
             }
         });
 
@@ -337,11 +343,21 @@ public class LifeLogActivity extends android.app.Activity {
         return Arrays.asList(dbActivityHelper.getActivitesByDate(formattedDate));
     }
 
-    public void addAndSetLabel(int activityID, int labelID){
-      //  dbLabelHelper.addLabel();
+    public void addAndSetLabel(String text ,int activityID){
+        int id = dbLabelHelper.addNewLabel(text);
+        setLabel(activityID, id);
+        pw.dismiss();
     }
 
     public void setLabel(int activityID, int labelID) {
         dbActivityHelper.setLabelToActivity(activityID, labelID);
+        List<LabelWrapper> l = dbLabelHelper.getAllLabels();
+        LabelWrapper[] lw = new LabelWrapper[l.size()+1];
+        for(int i = 0; i < l.size(); i++){
+            lw[i+1] = l.get(i);
+        }
+        adapter.updateData(getActivites(),lw);
+        adapter.notifyDataSetInvalidated();
+        adapter.notifyDataSetChanged();
     }
 }

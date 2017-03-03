@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="Hungry"
+        android:maxLength="20"
         android:ems="10"
         android:id="@+id/editText"
         android:layout_marginBottom="20dp"
