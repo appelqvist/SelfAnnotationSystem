@@ -31,7 +31,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#da4c4c"
             android:textSize="14sp"
             android:textStyle="bold"
             android:id="@+id/tvTime"
@@ -39,8 +38,10 @@
             android:layout_alignTop="@+id/tvActivityType" />
 
         <TextView
-            android:text="Transportsträcka"
+            android:text="-"
             android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="#da4c4c"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvLabel"
