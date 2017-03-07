@@ -112,7 +112,8 @@ public class DBActivityHelper extends SQLiteOpenHelper {
     public ActivityWrapper[] getActivitesByDate(String date){
         int steps, distance, dateIndex, timeIndex, type, labelIndex, idIndex;
         SQLiteDatabase db = getReadableDatabase();
-        String query = " SELECT * FROM " + TABLE_ACTIVITES+ " WHERE "+COLUMN_DATE+"='"+ date +"'";
+        String query = " SELECT * FROM " + TABLE_ACTIVITES+ " WHERE "+COLUMN_DATE+"='"+ date +"'" +
+                "ORDER BY time(" + COLUMN_TIME + ") DESC";
         Cursor c = db.rawQuery(query, null);
         ActivityWrapper[] activities = new ActivityWrapper[c.getCount()];
         steps = c.getColumnIndex(COLUMN_STEPS);
